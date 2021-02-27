@@ -33,7 +33,7 @@ module.exports = db => {
 			{ algorithm: 'RS256' },
 		);
 
-		res.smartSend({ token })
+		res.send({ token })
 	});
 
 	router.get('/', async (req, res) => {
@@ -41,9 +41,9 @@ module.exports = db => {
 			.map(user => user.name)
 			.value();
 
-		res.smartSend(val);
+		res.send(val);
 	});
-	
+
 	router.use('/notes', notesRouter(db));
 
 	return router;

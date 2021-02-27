@@ -3,5 +3,5 @@ node_modules
 dist
 dist-ssr
 *.local
-db.yaml
+db.json
 *.pem

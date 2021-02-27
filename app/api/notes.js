@@ -13,14 +13,14 @@ module.exports = db => {
 			const notes = await userNotes(req.user.name)
 				.value();
 
-			res.smartSend(notes);
+			res.send(notes);
 		})
 		.post(async (req, res) => {
 			const note = await userNotes(req.user.name)
 				.insert(req.body)
 				.write();
 
-			return res.status(201).smartSend(note.id);
+			return res.status(201).send(note.id);
 		})
 
 	router
@@ -31,7 +31,7 @@ module.exports = db => {
 				.value();
 
 			if (note) {
-				return res.smartSend(note);
+				return res.send(note);
 			}
 
 			return res.status(404).send();
@@ -43,7 +43,7 @@ module.exports = db => {
 				.write();
 
 			if (note) {
-				return res.smartSend(note);
+				return res.send(note);
 			}
 
 			return res.status(404).send();
