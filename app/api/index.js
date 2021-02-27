@@ -3,6 +3,7 @@ const jwt = require('express-jwt');
 const fs = require('fs');
 const { sign } = require('jsonwebtoken');
 const router = express.Router();
+const notesRouter = require('./notes');
 
 const keys = {
 	public: fs.readFileSync('public.pem'),
@@ -33,7 +34,7 @@ module.exports = db => {
 		);
 
 		res.smartSend({ token })
-	})
+	});
 
 	router.get('/', async (req, res) => {
 		const val = await db
@@ -41,7 +42,9 @@ module.exports = db => {
 			.value();
 
 		res.smartSend(val);
-	})
+	});
+	
+	router.use('/notes', notesRouter(db));
 
 	return router;
 }
