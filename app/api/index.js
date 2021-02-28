@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('express-jwt');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 const { sign } = require('jsonwebtoken');
 const router = express.Router();
@@ -25,7 +26,9 @@ module.exports = db => {
 
 		const user = await db.find({ name }).value();
 
-		if (!user || password !== user.password) return res.status(401).send();
+		if (!user || !await bcrypt.compare(password, user.password)) {
+			return res.status(401).send();
+		}
 
 		const token = sign(
 			{ name },
