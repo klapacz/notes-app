@@ -12,7 +12,7 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 button {
 	min-width: 3rem;
 	text-align: center;

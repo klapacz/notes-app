@@ -44,7 +44,7 @@ const submitForm = async () => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 form {
 	max-width: 30rem;
 	margin: auto;

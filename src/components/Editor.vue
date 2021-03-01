@@ -66,18 +66,17 @@ watch(tokens, (value) => {
 const html = computed(() => DOMPurify.sanitize(marked.parser(tokens.value)));
 </script>
 
-<style lang="scss" scoped>
-@import "bootstrap";
+<style scoped>
 
 .editor {
 	display: flex;
 	align-items: stretch;
+}
 
-	> * {
-		box-sizing: border-box;
-		padding: 1rem;
-		width: 50%;
-	}
+.editor > * {
+	box-sizing: border-box;
+	padding: 1rem;
+	width: 50%;
 }
 
 textarea {

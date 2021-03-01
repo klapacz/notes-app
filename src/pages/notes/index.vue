@@ -57,10 +57,8 @@ const noteToDelete = ref(null);
 useContext();
 </script>
 
-<style lang="scss">
-.note-title {
-	> p {
-		margin: 0 !important;
-	}
+<style>
+.note-title > p {
+	margin: 0 !important;
 }
 </style>
