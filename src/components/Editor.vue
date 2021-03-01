@@ -2,7 +2,6 @@
 	<div ref="container" :style="{ minHeight: `${minHeight}px`}" class="editor">
 		<textarea
 			placeholder="Type something here..."
-			ref="myTextarea"
 			v-model="props.note.content"
 			class="bg-light"
 		></textarea>

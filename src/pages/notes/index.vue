@@ -10,7 +10,10 @@
 						<span v-html="render(note.title)" class="note-title"></span>
 
 						<div class="btn-group" role="group">
-							<router-link to="/" class="btn btn-primary">Edit</router-link>
+							<router-link
+								:to="{ name: 'notes.edit', params: { id: note.id }, }"
+								class="btn btn-primary"
+							>Edit</router-link>
 							<button @click="noteToDelete = note" class="btn btn-danger">Delete</button>
 						</div>
 					</div>

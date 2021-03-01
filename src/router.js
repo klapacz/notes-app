@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 import LoginPage from "./pages/LoginPage.vue";
 import NotesPage from "./pages/notes/index.vue";
 import CreateNotePage from "./pages/notes/Create.vue";
+import EditNotePage from "./pages/notes/Edit.vue";
 import store from './store';
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
 		path: '/create',
 		component: CreateNotePage,
 		name: 'notes.create',
+	},
+	{
+		path: '/edit/:id',
+		component: EditNotePage,
+		name: 'notes.edit',
 	},
 
 	{
