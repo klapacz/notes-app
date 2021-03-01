@@ -5,7 +5,7 @@ export default {
 	get notes() {
 		return fetchival('/api/notes', {
 			headers: {
-				Authorization: `Bearer ${store.state.token}`,
+				Authorization: `Bearer ${store.state.auth.token}`,
 			},
 		});
 	},

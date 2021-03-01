@@ -37,7 +37,7 @@ import marked from "marked";
 
 const store = useStore();
 const isLoading = ref(false);
-const notes = computed(() => store.state.notes);
+const notes = computed(() => store.state.notes.notes);
 
 const loadNotes = async () => {
 	isLoading.value = true;
