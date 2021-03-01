@@ -1,4 +1,5 @@
 const express = require('express');
+const shortid = require('shortid');
 const router = express.Router();
 
 
@@ -16,18 +17,24 @@ module.exports = db => {
 			res.send(notes);
 		})
 		.post(async (req, res) => {
-			const note = await userNotes(req.user.name)
-				.insert(req.body)
+			const note = {
+				id: shortid.generate(),
+				...req.body
+			};
+
+			await userNotes(req.user.name)
+				.unshift(note)
 				.write();
 
-			return res.status(201).send(note.id);
+			return res.status(201).send(note);
 		})
 
 	router
 		.route('/:id')
 		.get(async (req, res) => {
+			const id = req.params.id;
 			const note = await userNotes(req.user.name)
-				.getById(req.params.id)
+				.find({ id })
 				.value();
 
 			if (note) {
@@ -37,8 +44,9 @@ module.exports = db => {
 			return res.status(404).send();
 		})
 		.put(async (req, res) => {
+			const id = req.params.id;
 			const note = await userNotes(req.user.name)
-				.getById(req.params.id)
+				.find({ id })
 				.assign(req.body)
 				.write();
 
@@ -49,12 +57,15 @@ module.exports = db => {
 			return res.status(404).send();
 		})
 		.delete(async (req, res) => {
+			const id = req.params.id;
 			const note = await userNotes(req.user.name)
-				.removeById(req.params.id)
+				.remove({ id })
 				.write();
 
 			if (note) {
-				return res.status(200).send();
+				return res.status(200).send({
+					status: 'ok',
+				});
 			}
 
 			return res.status(204).send();

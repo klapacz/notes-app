@@ -1,7 +1,7 @@
 <template>
 	<navbar />
 
-	<div class="page-container container mt-3">
+	<div class="page-container container my-3">
 		<router-view></router-view>
 	</div>
 

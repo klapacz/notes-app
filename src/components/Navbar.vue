@@ -3,6 +3,7 @@
 		<div class="container">
 			<router-link to="/" class="navbar-brand">Notes</router-link>
 			<div class="d-flex">
+				<div id="navbar-settings"></div>
 				<btn-loading
 					v-if="isLoged || isLoading"
 					@click="logout"
