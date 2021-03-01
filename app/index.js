@@ -6,6 +6,7 @@ const app = express();
 const apiRouter = require('./api');
 
 const port = process.env.PORT || 4000;
+const baseURL = process.env.BASE_URL || '/';
 const distPath = path.resolve(__dirname, '../dist');
 
 app.use(bodyParser.json());
@@ -13,9 +14,9 @@ app.use(bodyParser.json());
 (async () => {
 	const db = await require('./db')();
 
-	app.use('/api', apiRouter(db));
+	app.use(`${baseURL}api`, apiRouter(db));
 
-	app.use(express.static(distPath));
+	app.use(baseURL, express.static(distPath));
 
 	app.get('*', (req, res) => {
 		res.sendFile(path.join(distPath, 'index.html'));

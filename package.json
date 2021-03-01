@@ -2,7 +2,7 @@
 	"name": "notes-app",
 	"version": "0.0.1",
 	"scripts": {
-		"server:dev": "nodemon app/index.js",
+		"server:dev": "nodemon -i db.json app/index.js",
 		"client:dev": "vite",
 		"build": "vite build",
 		"start": "node app/index.js"

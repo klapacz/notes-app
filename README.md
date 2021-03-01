@@ -12,3 +12,13 @@ openssl rsa -in private.pem -pubout -out public.pem
 ```sh
 npx bcrypt-util hash "your-password"
 ```
+
+## Run 
+
+```sh
+export BASE_URL=/base-url/
+export PORT=8080
+
+npm run build
+npm run start
+```
