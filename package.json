@@ -21,9 +21,13 @@
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^1.1.4",
 		"@vue/compiler-sfc": "^3.0.5",
+		"bootstrap": "5.0.0-alpha1",
+		"fetchival": "^0.3.3",
 		"nodemon": "^2.0.7",
+		"sass": "^1.32.8",
 		"vite": "^2.0.1",
-		"vue-router": "4"
+		"vue-router": "4",
+		"vuex": "^4.0.0"
 	},
 	"author": "Korneliusz Łapacz <lapacz.kornel@gmail.com>",
 	"license": "MIT"
