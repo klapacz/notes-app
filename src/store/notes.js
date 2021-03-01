@@ -45,12 +45,16 @@ export default {
 				await api.notes(id).put(note);
 
 				commit('updateNote', state.edit.note);
-				commit('removeEdit');
-
-				router.push({ name: 'notes' });
+				commit('setEdit', state.edit.note);
 			} catch (error) {
 				console.error(error);
 			}
+		},
+
+		exitEdit({ commit }) {
+			commit('removeEdit');
+
+			router.push({ name: 'notes' });
 		},
 
 		// TODO: 404 handling

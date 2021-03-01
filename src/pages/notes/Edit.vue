@@ -1,6 +1,6 @@
 <template>
 	<template v-if="note">
-		<editor :note="note" />
+		<editor :note="note" @save="save" />
 
 		<teleport to="#navbar-settings">
 			<btn-loading @click="save" :disabled="!isEdited" :is-loading="isLoading" class="btn btn-success me-1">Update</btn-loading>
@@ -23,6 +23,7 @@ const route = useRoute();
 const isLoading = ref(false);
 
 const save = async () => {
+	// TODO: Show error
 	if (!note.value.title) {
 		return;
 	}

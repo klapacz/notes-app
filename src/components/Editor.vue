@@ -1,16 +1,22 @@
 <template>
 	<div ref="container" :style="{ minHeight: `${minHeight}px`}" class="editor">
-		<textarea
-			placeholder="Type something here..."
-			v-model="props.note.content"
-			class="bg-light"
-		></textarea>
+		<textarea placeholder="Type something here..." v-model="props.note.content" class="bg-light"></textarea>
 		<div v-html="html"></div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed, defineProps, watch } from "vue";
+// TODO: better table render
+// TODO: view switcher
+import {
+	ref,
+	onMounted,
+	onUnmounted,
+	computed,
+	defineProps,
+	watch,
+	defineEmit,
+} from "vue";
 import marked from "marked";
 import DOMPurify from "dompurify";
 
@@ -21,13 +27,26 @@ const calculateMinSize = () => {
 	minHeight.value = container.value.parentElement.clientHeight;
 };
 
+const emit = defineEmit(["save"]);
+
+const handleKeyDown = (event) => {
+	if (!(event.key === "s" && event.ctrlKey)) {
+		return;
+	}
+
+	event.preventDefault();
+	emit("save");
+};
+
 onMounted(() => {
 	window.addEventListener("resize", calculateMinSize);
+	document.addEventListener("keydown", handleKeyDown);
 	calculateMinSize();
 });
 
 onUnmounted(() => {
 	window.removeEventListener("resize", calculateMinSize);
+	document.removeEventListener("keydown", handleKeyDown);
 });
 
 const props = defineProps({
@@ -48,6 +67,8 @@ const html = computed(() => DOMPurify.sanitize(marked.parser(tokens.value)));
 </script>
 
 <style lang="scss" scoped>
+@import "bootstrap";
+
 .editor {
 	display: flex;
 	align-items: stretch;

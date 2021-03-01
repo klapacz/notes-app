@@ -1,5 +1,5 @@
 <template>
-	<editor :note="note"/>
+	<editor :note="note" @save="save"/>
 
 	<teleport to="#navbar-settings">
 		<btn-loading @click="save" :is-loading="isLoading" class="btn btn-success me-1">Save</btn-loading>
@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import BtnLoading from "/src/components/BtnLoading.vue";
 import Editor from "/src/components/Editor.vue";
@@ -22,6 +22,7 @@ const note = reactive({
 const isLoading = ref(false);
 
 const save = async () => {
+	// TODO: Show error
 	if (!note.title) {
 		return;
 	}
