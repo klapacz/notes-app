@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -5,8 +7,8 @@ const app = express();
 
 const apiRouter = require('./api');
 
-const port = process.env.PORT || 4000;
-const baseURL = process.env.BASE_URL || '/';
+const port = process.env.PORT;
+const baseURL = process.env.BASE_URL;
 const distPath = path.resolve(__dirname, '../dist');
 
 app.use(bodyParser.json());

@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite'
+import dotenv from 'dotenv'
 import vue from '@vitejs/plugin-vue'
+
+// vite loads .env only to app source
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({

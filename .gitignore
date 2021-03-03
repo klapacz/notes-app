@@ -5,3 +5,4 @@ dist-ssr
 *.local
 db.json
 *.pem
+.env
