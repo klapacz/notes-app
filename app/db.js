@@ -1,12 +1,20 @@
-const low = require('lowdb');
-const FileAsync = require('lowdb/adapters/FileAsync');
-
-const adapter = new FileAsync('db.json', {
-	defaultValue: [],
-});
+const Datastore = require('nedb-promises')
+const path = require('path');
 
 module.exports = async () => {
-	const db = await low(adapter);
+	const options = {
+		autoload: true,
+		timestampData: true,
+	};
 
-	return db;
+	return {
+		users: new Datastore({
+			...options,
+			filename: path.resolve(`${process.env.DB_DIR}/users.db`),
+		}),
+		notes: new Datastore({
+			...options,
+			filename: path.resolve(`${process.env.DB_DIR}/notes.db`),
+		})
+	}
 };

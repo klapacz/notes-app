@@ -24,14 +24,14 @@ module.exports = db => {
 	router.post('/login', async (req, res) => {
 		const { name, password } = req.body;
 
-		const user = await db.find({ name }).value();
+		const user = await db.users.findOne({ name });
 
 		if (!user || !await bcrypt.compare(password, user.password)) {
 			return res.status(401).send();
 		}
 
 		const token = sign(
-			{ name },
+			{ _id: user._id },
 			keys.private,
 			{ algorithm: 'RS256' },
 		);
@@ -40,11 +40,9 @@ module.exports = db => {
 	});
 
 	router.get('/', async (req, res) => {
-		const val = await db
-			.map(user => user.name)
-			.value();
+		const users = await db.users.find({}, { name: 1, }).exec()
 
-		res.send(val);
+		res.send(users);
 	});
 
 	router.use('/notes', notesRouter(db));

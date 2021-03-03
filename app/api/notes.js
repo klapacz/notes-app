@@ -1,74 +1,60 @@
 const express = require('express');
-const shortid = require('shortid');
 const router = express.Router();
 
-
+// TODO: return 404 if not found
 module.exports = db => {
-	const userNotes = (name) => db
-		.find({ name })
-		.get('notes');
-
 	router
 		.route('/')
 		.get(async (req, res) => {
-			const notes = await userNotes(req.user.name)
-				.value();
+			const { _id: user_id } = req.user;
 
+			const notes = await db.notes.find({ user_id }, { content: 0 });
 			res.send(notes);
 		})
 		.post(async (req, res) => {
-			const note = {
-				id: shortid.generate(),
-				...req.body
-			};
+			// TODO validation
+			const { _id: user_id } = req.user;
 
-			await userNotes(req.user.name)
-				.unshift(note)
-				.write();
+			const note = await db.notes.insert({ ...req.body, user_id });
 
 			return res.status(201).send(note);
 		})
 
 	router
-		.route('/:id')
+		.route('/:_id')
 		.get(async (req, res) => {
-			const id = req.params.id;
-			const note = await userNotes(req.user.name)
-				.find({ id })
-				.value();
+			const { _id: user_id } = req.user;
+			const { _id } = req.params;
 
-			if (note) {
-				return res.send(note);
-			}
+			const note = await db.notes.findOne({
+				$and: [{ user_id }, { _id }]
+			});
 
-			return res.status(404).send();
+			return res.send(note);
 		})
 		.put(async (req, res) => {
-			const id = req.params.id;
-			const note = await userNotes(req.user.name)
-				.find({ id })
-				.assign(req.body)
-				.write();
+			const { _id: user_id } = req.user;
+			const { _id } = req.params;
 
-			if (note) {
-				return res.send(note);
-			}
+			await db.notes.update({
+				$and: [{ user_id }, { _id }]
+			}, req.body);
 
-			return res.status(404).send();
+			return res.status(200).send({
+				status: 'updated',
+			});
 		})
 		.delete(async (req, res) => {
-			const id = req.params.id;
-			const note = await userNotes(req.user.name)
-				.remove({ id })
-				.write();
+			const { _id: user_id } = req.user;
+			const { _id } = req.params;
 
-			if (note) {
-				return res.status(200).send({
-					status: 'ok',
-				});
-			}
+			await db.notes.remove({
+				$and: [{ user_id }, { _id }]
+			});
 
-			return res.status(204).send();
+			return res.status(200).send({
+				status: 'deleted',
+			});
 		})
 
 	return router;

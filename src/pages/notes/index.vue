@@ -5,13 +5,13 @@
 	<div class="mt-3">
 		<div v-if="notes" class="card">
 			<ul class="list-group list-group-flush">
-				<li v-for="note in notes" class="list-group-item" :key="note.id">
+				<li v-for="note in notes" class="list-group-item" :key="note._id">
 					<div class="d-flex justify-content-between align-items-center">
 						<span v-html="render(note.title)" class="note-title"></span>
 
 						<div class="btn-group" role="group">
 							<router-link
-								:to="{ name: 'notes.edit', params: { id: note.id }, }"
+								:to="{ name: 'notes.edit', params: { id: note._id }, }"
 								class="btn btn-primary"
 							>Edit</router-link>
 							<button @click="noteToDelete = note" class="btn btn-danger">Delete</button>

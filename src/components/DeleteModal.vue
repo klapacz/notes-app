@@ -3,6 +3,7 @@
 		<div class="modal fade show d-block" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
+					<!-- TODO: Click away -->
 					<div class="modal-header">
 						<h5 class="modal-title">Confirm deletion</h5>
 						<button @click="$emit('close')" type="button" class="btn-close"></button>
@@ -34,7 +35,7 @@ const store = useStore();
 
 const deleteNote = async () => {
 	isLoading.value = true;
-	await store.dispatch("deleteNote", props.note.id);
+	await store.dispatch("deleteNote", props.note._id);
 	isLoading.value = false;
 	emit('close');
 };

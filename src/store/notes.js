@@ -29,20 +29,20 @@ export default {
 			}
 		},
 
-		async deleteNote({ commit }, id) {
+		async deleteNote({ commit }, _id) {
 			try {
-				await api.notes(id).delete();
-				commit('deleteNote', id)
+				await api.notes(_id).delete();
+				commit('deleteNote', _id)
 			} catch (error) {
 				console.error(error);
 			}
 		},
 
 		async saveEdit({ commit, state }) {
-			const { id, ...note } = state.edit.note;
+			const { _id, ...note } = state.edit.note;
 
 			try {
-				await api.notes(id).put(note);
+				await api.notes(_id).put(note);
 
 				commit('updateNote', state.edit.note);
 				commit('setEdit', state.edit.note);
@@ -58,16 +58,9 @@ export default {
 		},
 
 		// TODO: 404 handling
-		async setupForEdit({ commit, getters }, id) {
-			let note = getters.getNoteById(id);
-
-			if (note) {
-				commit('setEdit', { ...note });
-				return;
-			}
-
+		async setupForEdit({ commit, getters }, _id) {
 			try {
-				const note = await api.notes(id).get();
+				const note = await api.notes(_id).get();
 
 				commit('setEdit', note);
 			} catch (error) {
@@ -77,8 +70,8 @@ export default {
 	},
 
 	getters: {
-		getNoteById: (state) => (id) => {
-			return state.notes && state.notes.find(todo => todo.id === id);
+		getNoteById: (state) => (_id) => {
+			return state.notes && state.notes.find(note => note._id === _id);
 		},
 		isEdited: ({ edit }) => edit.originalContent !== edit.note.content,
 	},
@@ -94,12 +87,12 @@ export default {
 
 		updateNote(state, note) {
 			if (state.notes) {
-				state.notes = state.notes.map((candidate) => candidate.id === note.id ? note : candidate);
+				state.notes = state.notes.map((candidate) => candidate._id === note._id ? note : candidate);
 			}
 		},
 
-		deleteNote(state, id) {
-			state.notes = state.notes.filter(note => note.id !== id);
+		deleteNote(state, _id) {
+			state.notes = state.notes.filter(note => note._id !== _id);
 		},
 
 		setEdit(state, note) {
