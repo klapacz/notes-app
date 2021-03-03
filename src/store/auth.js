@@ -5,11 +5,10 @@ export default {
 	state: () => ({
 		token: window.localStorage.getItem('token'),
 	}),
-	
+
 	actions: {
 		async login({ commit }, form) {
 			try {
-				// TODO: check token signature
 				const { token } = await api.login(form);
 
 				commit('setToken', token);

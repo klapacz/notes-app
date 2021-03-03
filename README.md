@@ -1,24 +1,17 @@
 # Notes app
 
-## Generate keys
+## Setup env
 
 ```sh
-openssl genrsa -out private.pem 2048
-openssl rsa -in private.pem -pubout -out public.pem
-```
+cp .env.example .env
 
-## Generate password
-
-```sh
-npx bcrypt-util hash "your-password"
+# Generate SECRET
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
 
 ## Run 
 
 ```sh
-export BASE_URL=/base-url/
-export PORT=8080
-
 npm run build
 npm run start
 ```
