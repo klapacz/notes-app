@@ -43,5 +43,5 @@ export default {
 			state.token = null;
 			window.localStorage.removeItem('token');
 		},
-	}
-}
+	},
+};

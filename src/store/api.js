@@ -1,7 +1,7 @@
 import fetchival from 'fetchival';
-import store from "./index";
+import store from './index';
 
-const apiURL = `${import.meta.env.BASE_URL}api`
+const apiURL = `${import.meta.env.BASE_URL}api`;
 
 export default {
 	get notes() {
@@ -13,4 +13,4 @@ export default {
 	},
 
 	login: fetchival(`${apiURL}/login`).post,
-}
+};

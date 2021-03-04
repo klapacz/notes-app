@@ -1,7 +1,15 @@
 <template>
-	<div ref="container" :style="{ minHeight: `${minHeight}px`}" class="editor">
-		<textarea placeholder="Type something here..." v-model="props.note.content" class="bg-light"></textarea>
-		<div v-html="html"></div>
+	<div
+		ref="container"
+		:style="{ minHeight: `${minHeight}px`}"
+		class="editor"
+	>
+		<textarea
+			v-model="props.note.content"
+			placeholder="Type something here..."
+			class="bg-light"
+		/>
+		<div v-html="html" />
 	</div>
 </template>
 
@@ -16,9 +24,9 @@ import {
 	defineProps,
 	watch,
 	defineEmit,
-} from "vue";
-import marked from "marked";
-import DOMPurify from "dompurify";
+} from 'vue';
+import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 const container = ref(null);
 const minHeight = ref(0);
@@ -27,26 +35,26 @@ const calculateMinSize = () => {
 	minHeight.value = container.value.parentElement.clientHeight;
 };
 
-const emit = defineEmit(["save"]);
+const emit = defineEmit(['save']);
 
 const handleKeyDown = (event) => {
-	if (!(event.key === "s" && event.ctrlKey)) {
+	if (!(event.key === 's' && event.ctrlKey)) {
 		return;
 	}
 
 	event.preventDefault();
-	emit("save");
+	emit('save');
 };
 
 onMounted(() => {
-	window.addEventListener("resize", calculateMinSize);
-	document.addEventListener("keydown", handleKeyDown);
+	window.addEventListener('resize', calculateMinSize);
+	document.addEventListener('keydown', handleKeyDown);
 	calculateMinSize();
 });
 
 onUnmounted(() => {
-	window.removeEventListener("resize", calculateMinSize);
-	document.removeEventListener("keydown", handleKeyDown);
+	window.removeEventListener('resize', calculateMinSize);
+	document.removeEventListener('keydown', handleKeyDown);
 });
 
 const props = defineProps({
@@ -57,7 +65,7 @@ const tokens = computed(() => marked.lexer(props.note.content));
 
 watch(tokens, (value) => {
 	const token = value.find(
-		(token) => token.type === "heading" && token.depth === 1
+		(token) => token.type === 'heading' && token.depth === 1,
 	);
 
 	props.note.title = token && token.text;

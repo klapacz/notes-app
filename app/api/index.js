@@ -10,7 +10,7 @@ const algorithm = 'HS256';
 
 module.exports = db => {
 	router.use(
-		jwt({ secret, algorithms: [algorithm] }).unless({ path: /.*\/login$/ })
+		jwt({ secret, algorithms: [algorithm] }).unless({ path: /.*\/login$/ }),
 	);
 
 	router.post('/login', async (req, res) => {
@@ -28,10 +28,10 @@ module.exports = db => {
 			{ algorithm },
 		);
 
-		res.send({ token })
+		res.send({ token });
 	});
 
 	router.use('/notes', notesRouter(db));
 
 	return router;
-}
+};

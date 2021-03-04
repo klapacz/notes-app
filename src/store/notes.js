@@ -1,5 +1,5 @@
 import router from '../router';
-import api from "./api";
+import api from './api';
 
 export default {
 	state: () => ({
@@ -32,7 +32,7 @@ export default {
 		async deleteNote({ commit }, _id) {
 			try {
 				await api.notes(_id).delete();
-				commit('deleteNote', _id)
+				commit('deleteNote', _id);
 			} catch (error) {
 				console.error(error);
 			}
@@ -66,7 +66,7 @@ export default {
 			} catch (error) {
 				console.error(error);
 			}
-		}
+		},
 	},
 
 	getters: {
@@ -102,5 +102,5 @@ export default {
 		removeEdit(state) {
 			state.edit = null;
 		},
-	}
+	},
 };

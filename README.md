@@ -1,5 +1,14 @@
 # Notes app
 
+## Development
+
+```sh
+hook=.git/hooks/pre-commit
+
+printf '#!/bin/sh\nnpm run lint\n' > "$hook"
+chmod +x "$hook"
+```
+
 ## Setup env
 
 Generate `SECRET` environment variable and put it to `.env.local` file.

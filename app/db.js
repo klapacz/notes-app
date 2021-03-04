@@ -1,4 +1,4 @@
-const Datastore = require('nedb-promises')
+const Datastore = require('nedb-promises');
 const path = require('path');
 
 module.exports = async () => {
@@ -15,6 +15,6 @@ module.exports = async () => {
 		notes: new Datastore({
 			...options,
 			filename: path.resolve(`${process.env.DB_DIR}/notes.db`),
-		})
-	}
+		}),
+	};
 };

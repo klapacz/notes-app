@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import dotenv from 'dotenv-flow'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import dotenv from 'dotenv-flow';
+import vue from '@vitejs/plugin-vue';
 
 // vite loads .env only to app source
 dotenv.config();

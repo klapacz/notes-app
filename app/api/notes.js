@@ -18,7 +18,7 @@ module.exports = db => {
 			const note = await db.notes.insert({ ...req.body, user_id });
 
 			return res.status(201).send(note);
-		})
+		});
 
 	router
 		.route('/:_id')
@@ -27,7 +27,7 @@ module.exports = db => {
 			const { _id } = req.params;
 
 			const note = await db.notes.findOne({
-				$and: [{ user_id }, { _id }]
+				$and: [{ user_id }, { _id }],
 			});
 
 			return res.send(note);
@@ -37,7 +37,7 @@ module.exports = db => {
 			const { _id } = req.params;
 
 			await db.notes.update({
-				$and: [{ user_id }, { _id }]
+				$and: [{ user_id }, { _id }],
 			}, req.body);
 
 			return res.status(200).send({
@@ -49,13 +49,13 @@ module.exports = db => {
 			const { _id } = req.params;
 
 			await db.notes.remove({
-				$and: [{ user_id }, { _id }]
+				$and: [{ user_id }, { _id }],
 			});
 
 			return res.status(200).send({
 				status: 'deleted',
 			});
-		})
+		});
 
 	return router;
 };

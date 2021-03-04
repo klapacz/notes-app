@@ -1,4 +1,4 @@
-require('dotenv-flow').config()
+require('dotenv-flow').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -26,6 +26,6 @@ app.use(bodyParser.json());
 
 	app.listen(
 		port,
-		() => console.log(`app listening on port ${port}`)
+		() => console.log(`app listening on port ${port}`),
 	);
 })();
