@@ -2,11 +2,12 @@
 
 ## Setup env
 
-```sh
-cp .env.example .env
+Generate `SECRET` environment variable and put it to `.env.local` file.
 
-# Generate SECRET
-node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+```sh
+secret=$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))")
+
+echo "SECRET=$secret" > .env.local
 ```
 
 ## Run 
