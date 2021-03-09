@@ -23,7 +23,7 @@ export default {
 		},
 
 		async deleteNote({ commit }, _id) {
-			await api.notes(_id).delete();
+			await api.notes.delete(_id);
 			commit('deleteNote', _id);
 		},
 
