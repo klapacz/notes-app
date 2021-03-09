@@ -39,5 +39,9 @@ module.exports = {
 		// DOMPurify used
 		'vue/no-v-html': 'off',
 		'eol-last': ['error', 'always'],
+		'max-len': ['error', {
+			'code': 100,
+		}],
+		'object-curly-spacing': ['error', 'always'],
 	},
 };
