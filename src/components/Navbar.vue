@@ -10,7 +10,7 @@
 			<div class="d-flex">
 				<div id="navbar-settings" />
 				<btn-loading
-					v-if="isLoged || isLoading"
+					v-if="isLoggedIn || isLoading"
 					:is-loading="isLoading"
 					class="btn btn btn-outline-light"
 					@click="logout"
@@ -30,7 +30,7 @@ import BtnLoading from './BtnLoading.vue';
 
 const store = useStore();
 
-const isLoged = computed(() => store.getters.isLoged);
+const isLoggedIn = computed(() => store.getters.isLoggedIn);
 const isLoading = ref(false);
 
 const logout = async () => {

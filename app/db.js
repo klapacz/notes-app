@@ -16,5 +16,9 @@ module.exports = async () => {
 			...options,
 			filename: path.resolve(`${process.env.DB_DIR}/notes.db`),
 		}),
+		tokens: new Datastore({
+			...options,
+			filename: path.resolve(`${process.env.DB_DIR}/tokens.db`),
+		}),
 	};
 };

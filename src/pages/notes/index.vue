@@ -7,7 +7,7 @@
 	</router-link>
 	<btn-loading
 		:is-loading="isLoading"
-		@click="loadNotes"
+		@click="getAllNotes"
 	>
 		Reload
 	</btn-loading>
@@ -88,15 +88,15 @@ const store = useStore();
 const isLoading = ref(false);
 const notes = computed(() => store.state.notes.notes);
 
-const loadNotes = async () => {
+const getAllNotes = async () => {
 	isLoading.value = true;
-	await store.dispatch('loadNotes');
+	await store.dispatch('getAllNotes');
 	isLoading.value = false;
 };
 
 const render = (md) => DOMPurify.sanitize(marked(md));
 
-if (!notes.value) loadNotes();
+if (!notes.value) getAllNotes();
 
 const noteToDelete = ref(null);
 

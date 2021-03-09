@@ -2,7 +2,7 @@
 	<template v-if="note">
 		<editor
 			:note="note"
-			@save="save"
+			@save="updateNote"
 		/>
 
 		<teleport to="#navbar-settings">
@@ -10,7 +10,7 @@
 				:disabled="!isEdited"
 				:is-loading="isLoading"
 				class="btn btn-success me-1"
-				@click="save"
+				@click="updateNote"
 			>
 				Update
 			</btn-loading>
@@ -37,14 +37,14 @@ const route = useRoute();
 
 const isLoading = ref(false);
 
-const save = async () => {
+const updateNote = async () => {
 	// TODO: Show error
 	if (!note.value.title) {
 		return;
 	}
 
 	isLoading.value = true;
-	await store.dispatch('saveEdit');
+	await store.dispatch('updateNote');
 	isLoading.value = false;
 };
 

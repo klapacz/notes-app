@@ -38,7 +38,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if (!to.meta.isUnprotected && !store.getters.isLoged) next({ name: 'login' });
+	if (!to.meta.isUnprotected && !store.getters.isLoggedIn) next({ name: 'login' });
 	else next();
 });
 

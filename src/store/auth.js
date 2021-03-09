@@ -3,45 +3,69 @@ import router from '../router';
 
 export default {
 	state: () => ({
-		token: window.localStorage.getItem('token'),
+		accessToken: window.localStorage.getItem('access-token'),
+		refreshToken: window.localStorage.getItem('refresh-token'),
 	}),
 
 	actions: {
 		async login({ commit }, form) {
 			try {
-				const { token } = await api.login(form);
+				const response = await api.auth.login(form);
 
-				commit('setToken', token);
+				commit('setTokens', response.data);
 
 				router.push({ name: 'notes' });
 			} catch (error) {
-				const { response } = error;
+				if (error.response.status === 401) {
+					return 'Bad login or password';
+				}
 
-				if (response.status === 401) return 'Bad login or password';
 				return 'Login error';
 			}
 		},
+		
+		async refresh({ commit, state }) {
+			try {
+				const response = await api.auth.refresh(state.refreshToken);
+				
+				commit('setTokens', response.data);
+			} catch(error) {
+				commit('removeTokens');
+				router.push({ name: 'login' });
+			}
+		},
 
-		async logout({ commit }) {
-			// TODO: logout on backend
-			commit('removeToken');
-			router.push({ name: 'login' });
+		async logout({ commit, state }) {
+			try {
+				await api.auth.logout(state.refreshToken);
+			} catch (error) {
+				console.error('logging out error: ', error);
+			} finally {
+				commit('removeTokens');
+				router.push({ name: 'login' });
+			}
 		},
 	},
 
 	getters: {
-		isLoged: (state) => !!state.token,
+		isLoggedIn: (state) => !!state.accessToken,
 	},
 
 	mutations: {
-		setToken(state, token) {
-			state.token = token;
-			window.localStorage.setItem('token', token);
+		setTokens(state, { accessToken, refreshToken }) {
+			state.accessToken = accessToken;
+			state.refreshToken = refreshToken;
+
+			window.localStorage.setItem('access-token', accessToken);
+			window.localStorage.setItem('refresh-token', refreshToken);
 		},
 
-		removeToken(state) {
-			state.token = null;
-			window.localStorage.removeItem('token');
+		removeTokens(state) {
+			state.accessToken = null;
+			state.refreshToken = null;
+
+			window.localStorage.removeItem('access-token');
+			window.localStorage.removeItem('refresh-token');
 		},
 	},
 };

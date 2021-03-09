@@ -1,14 +1,14 @@
 <template>
 	<editor
 		:note="note"
-		@save="save"
+		@save="createNote"
 	/>
 
 	<teleport to="#navbar-settings">
 		<btn-loading
 			:is-loading="isLoading"
 			class="btn btn-success me-1"
-			@click="save"
+			@click="createNote"
 		>
 			Save
 		</btn-loading>
@@ -30,14 +30,14 @@ const note = reactive({
 
 const isLoading = ref(false);
 
-const save = async () => {
+const createNote = async () => {
 	// TODO: Show error
 	if (!note.title) {
 		return;
 	}
 
 	isLoading.value = true;
-	await store.dispatch('saveNote', note);
+	await store.dispatch('createNote', note);
 	isLoading.value = false;
 };
 </script>

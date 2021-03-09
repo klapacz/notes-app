@@ -11,12 +11,14 @@ chmod +x "$hook"
 
 ## Setup env
 
-Generate `SECRET` environment variable and put it to `.env.local` file.
+Generate tokens sencrets environment variables and put them to `.env.local` file.
 
 ```sh
-secret=$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))")
+for token in ACCESS REFRESH; do
+    secret=$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))")
 
-echo "SECRET=$secret" > .env.local
+    echo "${token}_TOKEN_SECRET=$secret" >> .env.local
+done
 ```
 
 ## Run 

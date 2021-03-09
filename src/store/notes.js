@@ -8,47 +8,32 @@ export default {
 	}),
 
 	actions: {
-		async loadNotes({ commit }) {
-			try {
-				const notes = await api.notes.get();
+		async getAllNotes({ commit }) {
+			const response = await api.notes.getAll();
 
-				commit('setNotes', notes);
-			} catch (error) {
-				console.error(error);
-			}
+			commit('setNotes', response.data);
 		},
 
-		async saveNote({ state, commit }, data) {
-			try {
-				const note = await api.notes.post(data);
-				if (state.notes) commit('addNote', note);
+		async createNote({ state, commit }, data) {
+			const response = await api.notes.create(data);
 
-				router.push({ name: 'notes' });
-			} catch (error) {
-				console.error(error);
-			}
+			if (state.notes) commit('addNote', response.data);
+
+			router.push({ name: 'notes' });
 		},
 
 		async deleteNote({ commit }, _id) {
-			try {
-				await api.notes(_id).delete();
-				commit('deleteNote', _id);
-			} catch (error) {
-				console.error(error);
-			}
+			await api.notes(_id).delete();
+			commit('deleteNote', _id);
 		},
 
-		async saveEdit({ commit, state }) {
+		async updateNote({ commit, state }) {
 			const { _id, ...note } = state.edit.note;
 
-			try {
-				await api.notes(_id).put(note);
+			await api.notes.update(_id, note);
 
-				commit('updateNote', state.edit.note);
-				commit('setEdit', state.edit.note);
-			} catch (error) {
-				console.error(error);
-			}
+			commit('updateNote', state.edit.note);
+			commit('setEdit', state.edit.note);
 		},
 
 		exitEdit({ commit }) {
@@ -59,13 +44,9 @@ export default {
 
 		// TODO: 404 handling
 		async setupForEdit({ commit, getters }, _id) {
-			try {
-				const note = await api.notes(_id).get();
+			const response = await api.notes.get(_id);
 
-				commit('setEdit', note);
-			} catch (error) {
-				console.error(error);
-			}
+			commit('setEdit', response.data);
 		},
 	},
 
@@ -87,7 +68,9 @@ export default {
 
 		updateNote(state, note) {
 			if (state.notes) {
-				state.notes = state.notes.map((candidate) => candidate._id === note._id ? note : candidate);
+				state.notes = state.notes.map(
+					(candidate) => candidate._id === note._id ? note : candidate,
+				);
 			}
 		},
 
