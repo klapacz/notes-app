@@ -42,6 +42,7 @@ export default {
 				console.error('logging out error: ', error);
 			} finally {
 				commit('removeTokens');
+				commit('setNotes', null);
 				router.push({ name: 'login' });
 			}
 		},
