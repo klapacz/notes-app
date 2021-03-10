@@ -1,21 +1,40 @@
 <template>
 	<div
 		ref="container"
-		:style="{ minHeight: `${minHeight}px`}"
+		:style="{ minHeight: `${minHeight}px`, }"
 		class="editor"
 	>
 		<textarea
 			v-model="props.note.content"
 			placeholder="Type something here..."
 			class="bg-light"
+			:style="{ width: showPreview ? '50%' : '100%', }"
 		/>
-		<div v-html="html" />
+		<div
+			v-show="showPreview"
+			v-html="html"
+		/>
 	</div>
+	
+	<teleport to="#navbar-settings">
+		<input
+			id="show-preview"
+			v-model="showPreview"
+			type="checkbox"
+			class="btn-check"
+			autocomplete="off"
+		>
+		<label
+			:class="`btn btn-${showPreview ? 'primary' : 'secondary'} me-1`"
+			for="show-preview"
+		>
+			<Icon />
+		</label>
+	</teleport>
 </template>
 
 <script setup>
 // TODO: better table render
-// TODO: view switcher
 import {
 	ref,
 	onMounted,
@@ -27,6 +46,9 @@ import {
 } from 'vue';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
+import Icon from 'bootstrap-icons/icons/spellcheck.svg?component';
+
+const showPreview = ref(true);
 
 const container = ref(null);
 const minHeight = ref(0);
