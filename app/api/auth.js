@@ -3,6 +3,7 @@ const jwtExpress = require('express-jwt');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const { ObjectId } = require('mongodb');
 
 const jwtMiddleware = jwtExpress({
 	secret: process.env.ACCESS_TOKEN_SECRET,
@@ -33,7 +34,7 @@ const authRouter = db => {
 			),
 		};
 
-		await db.tokens.insert({
+		await db.tokens.insertOne({
 			token: tokens.refreshToken,
 			user_id: user._id,
 		});
@@ -74,9 +75,9 @@ const authRouter = db => {
 			return res.sendStatus(401);
 		}
 
-		await db.tokens.remove({ _id: storedToken._id });
+		await db.tokens.deleteOne({ _id: storedToken._id });
 
-		const user = await db.users.findOne({ _id: decoded._id });
+		const user = await db.users.findOne({ _id: ObjectId(decoded._id) });
 		const tokens = await generateTokens(user);
 
 		res.send(tokens);
@@ -85,7 +86,7 @@ const authRouter = db => {
 	router.post('/logout', async (req, res) => {
 		const refreshToken = req.body.token;
 
-		await db.tokens.remove({ token: refreshToken });
+		await db.tokens.deleteOne({ token: refreshToken });
 
 		res.sendStatus(200);
 	});

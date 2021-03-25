@@ -1,24 +1,12 @@
-const Datastore = require('nedb-promises');
-const path = require('path');
+const MongoClient = require('mongodb').MongoClient;
 
 module.exports = async () => {
-	const options = {
-		autoload: true,
-		timestampData: true,
-	};
+	const client = await MongoClient.connect(process.env.DB_URL);
+	const db = client.db(process.env.DB_NAME);
 
 	return {
-		users: new Datastore({
-			...options,
-			filename: path.resolve(`${process.env.DB_DIR}/users.db`),
-		}),
-		notes: new Datastore({
-			...options,
-			filename: path.resolve(`${process.env.DB_DIR}/notes.db`),
-		}),
-		tokens: new Datastore({
-			...options,
-			filename: path.resolve(`${process.env.DB_DIR}/tokens.db`),
-		}),
+		users: db.collection('users'),
+		notes: db.collection('notes'),
+		tokens:db.collection('tokens'),
 	};
 };

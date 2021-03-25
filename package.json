@@ -15,7 +15,7 @@
 		"express": "^4.17.1",
 		"express-jwt": "^6.0.0",
 		"jsonwebtoken": "^8.5.1",
-		"nedb-promises": "^4.1.1"
+		"mongodb": "^3.6.4"
 	},
 	"devDependencies": {
 		"@fullhuman/postcss-purgecss": "^4.0.2",
